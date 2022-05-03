@@ -1,44 +1,5 @@
 # Angular 11 CRUD application example with Web API
 
-For instruction, please visit:
-> [Angular 11 CRUD Application example with Web API](https://bezkoder.com/angular-11-crud-app/)
-
-More practice:
-> [Angular 10 Pagination example | ngx-pagination](https://github.com/bezkoder/angular-10-pagination-example)
-
-> [Angular 10 File Upload example with progress bar](https://bezkoder.com/angular-10-file-upload/)
-
-Fullstack with Node.js Express:
-> [Angular 11 + Node.js Express + MySQL](https://bezkoder.com/angular-11-node-js-express-mysql/)
-
-> [Angular 11 + Node.js Express + PostgreSQL](https://bezkoder.com/angular-11-node-js-express-postgresql/)
-
-> [Angular 11 + Node.js Express + MongoDB](https://bezkoder.com/angular-11-mongodb-node-js-express/)
-
-Fullstack with Spring Boot:
-> [Angular 11 + Spring Boot + MySQL](https://bezkoder.com/angular-11-spring-boot-crud/)
-
-> [Angular 11 + Spring Boot + PostgreSQL](https://bezkoder.com/angular-11-spring-boot-postgresql/)
-
-> [Angular 11 + Spring Boot + MongoDB](https://bezkoder.com/angular-11-spring-boot-mongodb/)
-
-Fullstack with Django:
-> [Angular 11 + Django Rest Framework](https://bezkoder.com/django-angular-11-crud-rest-framework/)
-
-> [Angular 11 + Django + MySQL](https://bezkoder.com/django-angular-mysql/)
-
-> [Angular 11 + Django + PostgreSQL](https://bezkoder.com/django-angular-postgresql/)
-
-Serverless with Firebase:
-> [Angular 11 Firebase CRUD Realtime DB | AngularFireDatabase](https://bezkoder.com/angular-11-firebase-crud/)
-
-> [Angular 11 Firestore CRUD | AngularFireStore](https://bezkoder.com/angular-11-firestore-crud-angularfirestore/)
-
-Integration (run back-end & front-end on same server/port)
-> [How to Integrate Angular 10 with Node.js Restful Services](https://bezkoder.com/integrate-angular-10-node-js/)
-
-> [How to Integrate Angular with Spring Boot Rest API](https://bezkoder.com/integrate-angular-spring-boot/)
-
 ## Development server
 
 Run `ng serve --port 8081` for a dev server. Navigate to `http://localhost:8081/`. The app will automatically reload if you change any of the source files.
