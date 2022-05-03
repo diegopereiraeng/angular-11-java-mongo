@@ -1,0 +1,13 @@
+FROM openjdk:13-ea-jdk-alpine3.10
+USER root
+RUN   apk update \
+  &&   apk add ca-certificates wget \
+  &&   update-ca-certificates
+RUN wget -O dd-java-agent.jar "https://dtdg.co/latest-java-tracer"
+RUN addgroup -S spring && adduser -S spring -G spring
+RUN chown spring:spring dd-java-agent.jar
+USER spring:spring
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+
+ENTRYPOINT ["java","-Djdk.tls.client.protocols=TLSv1.2","-javaagent:/dd-java-agent.jar","-jar","/app.jar"]
