@@ -2,12 +2,18 @@ package com.bezkoder.spring.data.mongodb;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 
-@SpringBootTest
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SpringBootDataMongodbApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+	@LocalServerPort
+	private Integer port;
 
+
+	@Test
+	void printPortsInUse() {
+		System.out.println(port);
+	}
 }
