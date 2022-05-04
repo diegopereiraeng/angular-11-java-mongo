@@ -1,4 +1,4 @@
-FROM openjdk:13-ea-jdk-alpine3.10
+FROM openjdk:13-ea-12-jdk-alpine
 USER root
 RUN   apk update \
   &&   apk add ca-certificates wget \
