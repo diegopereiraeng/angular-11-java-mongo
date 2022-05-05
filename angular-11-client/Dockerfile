@@ -16,6 +16,6 @@
 FROM nginx:1.17.1-alpine
 #Copy ci-dashboard-dist
 # COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
-COPY ./dist/Angular11Crud/ /usr/share/nginx/html
+COPY ./dist/out/ /usr/share/nginx/html
 #Copy default nginx configuration
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf

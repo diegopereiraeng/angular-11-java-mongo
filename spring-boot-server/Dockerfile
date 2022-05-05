@@ -5,7 +5,7 @@ RUN   apk update \
   &&   update-ca-certificates
 #RUN wget -O dd-java-agent.jar "https://dtdg.co/latest-java-tracer"
 RUN addgroup -S spring && adduser -S spring -G spring
-RUN chown spring:spring dd-java-agent.jar
+#RUN chown spring:spring dd-java-agent.jar
 
 USER spring:spring
 ENV SPRING_PROFILE="default"
