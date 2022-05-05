@@ -13,4 +13,4 @@ ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 
 #ENTRYPOINT ["java","-Xmx128m","-Dspring.profiles.active=$SPRING_PROFILE","-Djdk.tls.client.protocols=TLSv1.2","-javaagent:/dd-java-agent.jar","-jar","/app.jar"]
-ENTRYPOINT ["java","-Xmx128m","-Djdk.tls.client.protocols=TLSv1.2","-jar","/app.jar"]
+ENTRYPOINT ["java","-Xmx512m","-Djdk.tls.client.protocols=TLSv1.2","-jar","/app.jar"]
