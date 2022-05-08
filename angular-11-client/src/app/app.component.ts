@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Angular 11 Crud';
+  respositoryEnabled = true
 }
