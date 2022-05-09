@@ -3,10 +3,10 @@ package com.bezkoder.spring.data.mongodb.controller;
 import com.bezkoder.spring.data.mongodb.SpringBootDataMongodbApplication;
 import com.bezkoder.spring.data.mongodb.model.Repository;
 import com.bezkoder.spring.data.mongodb.model.providers.Github;
+import com.bezkoder.spring.data.mongodb.model.providers.Quote;
 import com.bezkoder.spring.data.mongodb.repository.RepositoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,19 +39,39 @@ public class RepositoryController {
 
   private static String url = "http://localhost:8080/api/quote";
 
+  private static String github = "https://api.github.com/user/repos?per_page=100";
+
 
 
   @GetMapping("/quote")
   public String showQuote() {
     String quote = "{ \"type\": \"success\", \"value\": { \"id\": 10, \"quote\": \"Really loving Spring Boot, makes stand alone Spring apps easy.\" }}";
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Authorization", "Basic ZGllZ29wZXJlaXJhZW5nQGdtYWlsLmNvbTpnaHBfeHJCVWV2WkFBREZDS2pnVjlJSGZOU01uQ0szNmNqMGJIYWNT");
+    headers.set("Accept","application/vnd.github.v3+json");
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
+    ResponseEntity<Github[]> response = restTemplate.exchange(
+            github, HttpMethod.GET, requestEntity, Github[].class);
+    Github[] githubRepos = response.getBody();
+
+    List<Github> repoList = Arrays.asList(githubRepos);
+    repoList.forEach((Github repo) -> {
+      System.out.println(repo.getName());
+    });
+
+
+    log.info(response.getStatusCode().toString());
+    //Object github_object = restTemplate.getForObject(github, Github.class);
+    log.info(response.getBody().toString());
     return quote;
   }
 
   @GetMapping("/repositories")
   public ResponseEntity<List<Repository>> getAllRepositories(@RequestParam(required = false) String Name) {
     try {
-      Object quote = restTemplate.getForObject(url,Github.class);
+      Object quote = restTemplate.getForObject(url,Quote.class);
       log.info(quote.toString());
       //System.out.println("called");
       List<Repository> repositories = new ArrayList<Repository>();
