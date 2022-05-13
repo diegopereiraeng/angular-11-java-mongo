@@ -3,3 +3,5 @@
   max-width: 750px;
   margin: auto;
 }
+nav ul{height:700px; width:100%;}
+nav ul{overflow:hidden; overflow-y:scroll;}

@@ -20,20 +20,19 @@
   </div>
   <div class="col-md-6">
     <h4>Repositories List</h4>
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        *ngFor="let repository of repositories; let i = index"
-        [class.active]="i == currentIndex"
-        (click)="setActiveRepository(repository, i)"
-      >
-        {{ repository.name }}
-      </li>
-    </ul>
-
-    <button class="m-3 btn btn-sm btn-danger" (click)="removeAllRepositories()">
-      Remove All
-    </button>
+    <nav>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let repository of repositories; let i = index"
+          [class.active]="i == currentIndex"
+          (click)="setActiveRepository(repository, i)"
+        >
+          {{ repository.name }}
+        </li>
+      </ul>
+    </nav>
+    
   </div>
   <div class="col-md-6">
     <div *ngIf="currentRepository">
@@ -50,9 +49,20 @@
         {{ currentRepository.enabled ? "Enabled" : "Pending" }}
       </div>
       <span class="badge badge-primary">Primary</span>
-      <a class="badge badge-warning" routerLink="/repositories/{{ currentRepository.id }}">
-        Edit
+      <br>
+      <a  routerLink="/repositories/{{ currentRepository.id }}">
+        <button class="m-3 btn btn-sm btn-secondary" (click)="onboarding()">
+          Edit
+        </button>
       </a>
+      <br>
+      <button class="m-3 btn btn-sm btn-success" (click)="onboarding()">
+        Onboarding Harnesss
+      </button>
+      <button class="m-3 btn btn-sm btn-danger" (click)="removeOneRepository()">
+        Remove {{ getShortName(currentRepository.name!) }}
+      </button>
+
     </div>
 
     <div *ngIf="!currentRepository">

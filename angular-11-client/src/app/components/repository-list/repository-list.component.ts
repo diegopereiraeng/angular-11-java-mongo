@@ -53,6 +53,27 @@ export class RepositoriesListComponent implements OnInit {
           console.log(error);
         });
   }
+  removeOneRepository(): void {
+    this.repositoryService.delete(this.currentIndex)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.refreshList();
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  getShortName(name : string){
+    let shortName:string = name;
+    console.log(name);
+    return shortName.substring(0, 15);
+  }
+
+  onboarding(){
+    
+  }
 
   searchName(): void {
     this.currentRepository = undefined;

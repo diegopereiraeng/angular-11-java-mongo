@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Repository } from '../models/repository.model';
 
-//const baseUrl = 'http://localhost:8080/api/repositories';
-const baseUrl = 'http://harness-demo.site/spring-boot-server/api/repositories';
+const baseUrl = 'http://localhost:8080/api/repositories';
+//const baseUrl = 'http://harness-demo.site/spring-boot-server/api/repositories';
 
 
 
