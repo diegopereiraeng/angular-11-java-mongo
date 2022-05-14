@@ -29,124 +29,93 @@ public class Github {
         this.permissions = permissions;
     }
 
-    @Override
-    public String toString() {
-        return "Github{" +
-                "name='" + name + '\'' +
-                ", full_name='" + full_name + '\'' +
-                ", visibility='" + visibility + '\'' +
-                ", owner='" + owner + '\'' +
-                ", description='" + description + '\'' +
-                ", fork=" + fork +
-                ", url='" + url + '\'' +
-                ", collaborators_url='" + collaborators_url + '\'' +
-                ", language='" + language + '\'' +
-                ", default_branch='" + default_branch + '\'' +
-                ", permissions='" + permissions + '\'' +
-                ", value=" + value +
-                '}';
+    public String getName() {
+        return name;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
-    }
-
-    public void setVisibility(String visibility) {
-        this.visibility = visibility;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setFork(Boolean fork) {
-        this.fork = fork;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setCollaborators_url(String collaborators_url) {
-        this.collaborators_url = collaborators_url;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public void setDefault_branch(String default_branch) {
-        this.default_branch = default_branch;
-    }
-
-    public void setPermissions(Permissions permissions) {
-        this.permissions = permissions;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getFull_name() {
         return full_name;
     }
 
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
+    }
+
     public String getVisibility() {
         return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 
     public Owner getOwner() {
         return owner;
     }
 
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Boolean getFork() {
         return fork;
     }
 
+    public void setFork(Boolean fork) {
+        this.fork = fork;
+    }
+
     public String getUrl() {
         return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getCollaborators_url() {
         return collaborators_url;
     }
 
+    public void setCollaborators_url(String collaborators_url) {
+        this.collaborators_url = collaborators_url;
+    }
+
     public String getLanguage() {
         return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public String getDefault_branch() {
         return default_branch;
     }
 
+    public void setDefault_branch(String default_branch) {
+        this.default_branch = default_branch;
+    }
+
     public Permissions getPermissions() {
         return permissions;
     }
 
-    private Value value;
-
-    public Github() {
-
+    public void setPermissions(Permissions permissions) {
+        this.permissions = permissions;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String type) {
-        this.name = type;
-    }
-
-    public Value getValue() {
-        return value;
-    }
-
-    public void setValue(Value value) {
-        this.value = value;
-    }
 
 }

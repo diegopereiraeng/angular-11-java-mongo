@@ -8,23 +8,20 @@ public class Owner {
     private String type;
     private Boolean site_admin;
 
-    public Owner() {
-
-    }
-
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Owner(Long id, String login, String type, Boolean site_admin) {
-        this.id = id;
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
         this.login = login;
-        this.type = type;
-        this.site_admin = site_admin;
     }
 
     public String getType() {
@@ -43,13 +40,10 @@ public class Owner {
         this.site_admin = site_admin;
     }
 
-    @Override
-    public String toString() {
-        return "Owner{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", type='" + type + '\'' +
-                ", site_admin=" + site_admin +
-                '}';
+    public Owner(Long id, String login, String type, Boolean site_admin) {
+        this.id = id;
+        this.login = login;
+        this.type = type;
+        this.site_admin = site_admin;
     }
 }

@@ -1,5 +1,7 @@
 package com.bezkoder.spring.data.mongodb.model;
 
+import com.bezkoder.spring.data.mongodb.model.providers.Owner;
+import com.bezkoder.spring.data.mongodb.model.providers.Permissions;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,19 +20,23 @@ public class Repository {
   private String[] contributors;
   private String provider;
   private String link;
+  private String visibility;
+  private String full_name;
+  private Boolean fork;
+  private Permissions permissions;
+  private String group;
 
   public Repository() {
 
   }
 
-  public Repository(String name, String description, boolean enabled, String branch, String language, String owner, String[] contributors, String provider) {
+  public Repository(String name, String description, boolean enabled, String branch, String language, String owner, String provider) {
     this.name = name;
     this.description = description;
     this.enabled = enabled;
     this.branch = branch;
     this.language = language;
     this.owner = owner;
-    this.contributors = contributors;
     this.provider = provider;
   }
 

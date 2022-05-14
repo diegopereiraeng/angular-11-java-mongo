@@ -5,13 +5,16 @@ import com.bezkoder.spring.data.mongodb.model.Repository;
 import com.bezkoder.spring.data.mongodb.model.providers.Github;
 import com.bezkoder.spring.data.mongodb.model.providers.Quote;
 import com.bezkoder.spring.data.mongodb.repository.RepositoryRepository;
+import io.github.cdimascio.dotenv.Dotenv;
+import io.harness.cf.client.api.Event;
+import io.harness.cf.client.dto.Target;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 
 import org.springframework.web.client.RestTemplate;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +23,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+
+import com.bezkoder.spring.data.mongodb.model.FeatureFlagsService;
 
 
 //@CrossOrigin(origins = "http://angular.harness-demo.site")
 //@CrossOrigin(origins = {"http://34.122.165.247"})
+
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
@@ -35,60 +42,102 @@ public class RepositoryController {
   @Autowired
   private RestTemplate restTemplate;
 
+  Dotenv dotenv = Dotenv.load();
+
   private static final Logger log = LoggerFactory.getLogger(SpringBootDataMongodbApplication.class);
 
-  private static String url = "http://localhost:8080/api/quote";
-
-  private static String github = "https://api.github.com/user/repos?per_page=100";
+  private final FeatureFlagsService ffClient;
 
 
+
+  public RepositoryController(){
+    System.out.println("SDK Key: "+dotenv.get("FF_SDK_KEY"));
+    //System.out.println("SDK Key variable: "+this.sdkKey);
+    this.ffClient =  new FeatureFlagsService(dotenv.get("FF_SDK_KEY"),"Repository");
+  }
+
+
+  //private String url = "http://localhost:8080/api/quote";
+  private String url = dotenv.get("QUOTE_URL");
+
+  private String github = dotenv.get("GITHUB_URL");
+
+
+  @Value("${github.credentials}")
+  String githubAuth;
+
+  private void ConfigApp(String configs, String type) {
+    System.out.println("Config App");
+    log.info("Flag {} {}", type, configs);
+
+  }
+
+  private String ConfigApp(String flag) {
+    System.out.println("Ready App");
+    log.info("Ready Flag {}",  flag);
+    return flag;
+  }
 
   @GetMapping("/quote")
   public String showQuote() {
     String quote = "{ \"type\": \"success\", \"value\": { \"id\": 10, \"quote\": \"Really loving Spring Boot, makes stand alone Spring apps easy.\" }}";
-    HttpHeaders headers = new HttpHeaders();
-    headers.set("Authorization", "Basic ZGllZ29wZXJlaXJhZW5nQGdtYWlsLmNvbTpnaHBfeHJCVWV2WkFBREZDS2pnVjlJSGZOU01uQ0szNmNqMGJIYWNT");
-    headers.set("Accept","application/vnd.github.v3+json");
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-
-    ResponseEntity<Github[]> response = restTemplate.exchange(
-            github, HttpMethod.GET, requestEntity, Github[].class);
-    Github[] githubRepos = response.getBody();
-
-    List<Github> repoList = Arrays.asList(githubRepos);
-    repoList.forEach((Github repo) -> {
-      System.out.println(repo.getName());
-    });
+    Target target = Target.builder().name("User1").identifier("user1@example.com").build();
+    String menuVersion = ffClient.featureFlagService.stringVariation("Menu_Version", target, "v1");
+    ffClient.featureFlagService.on(Event.READY, resultReady -> log.info("Flag ready {}",ConfigApp(resultReady)));
+    ffClient.featureFlagService.on(Event.CHANGED, resultChanged -> ConfigApp(resultChanged, "changed"));
+    //ffClient.featureFlagService.on(Event.CHANGED, resultChanged -> log.info("Flag changed {}", resultChanged));
+    System.out.println("Flag Value: "+menuVersion);
 
 
-    log.info(response.getStatusCode().toString());
-    //Object github_object = restTemplate.getForObject(github, Github.class);
-    log.info(response.getBody().toString());
     return quote;
   }
 
   @GetMapping("/repositories")
   public ResponseEntity<List<Repository>> getAllRepositories(@RequestParam(required = false) String Name) {
-    try {
-      Object quote = restTemplate.getForObject(url,Quote.class);
-      log.info(quote.toString());
-      //System.out.println("called");
-      List<Repository> repositories = new ArrayList<Repository>();
+    Target target = Target.builder().name("Global").identifier("global@harness.io").build();
+    Boolean ffDecision = this.ffClient.boolCheck("Repository_Filter",target, false);
+    if (ffDecision){
+      System.out.println("Repository filter is on");
+      try {
+        Object quote = restTemplate.getForObject(url,Quote.class);
+        log.info(quote.toString());
+        //System.out.println("called");
+        List<Repository> repositories = new ArrayList<Repository>();
 
-      if (Name == null)
+        if (Name == null)
+          repositoryRepository.findAll().forEach(repositories::add);
+        else
+          repositoryRepository.findByNameContaining(Name).forEach(repositories::add);
+
+        if (repositories.isEmpty()) {
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(repositories, HttpStatus.OK);
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+    else {
+      try {
+        Object quote = restTemplate.getForObject(url,Quote.class);
+        log.info(quote.toString());
+        //System.out.println("called");
+        List<Repository> repositories = new ArrayList<Repository>();
+
         repositoryRepository.findAll().forEach(repositories::add);
-      else
-        repositoryRepository.findByNameContaining(Name).forEach(repositories::add);
 
-      if (repositories.isEmpty()) {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (repositories.isEmpty()) {
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(repositories, HttpStatus.OK);
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
 
-      return new ResponseEntity<>(repositories, HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
   }
 
   @GetMapping("/repositories/{id}")
@@ -104,9 +153,43 @@ public class RepositoryController {
 
   @GetMapping("/repositories/discover")
   public ResponseEntity<List<Repository>> discoverAllRepositories(@RequestParam(required = false) String Name) {
+    System.out.println("Discovering Repositories in Github");
     try {
-      System.out.println("called");
       List<Repository> repositories = new ArrayList<Repository>();
+
+      HttpHeaders headers = new HttpHeaders();
+      headers.set("Authorization", githubAuth);
+      headers.set("Accept","application/vnd.github.v3+json");
+      headers.setContentType(MediaType.APPLICATION_JSON);
+      HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+      ResponseEntity<Github[]> response = restTemplate.exchange(
+              github, HttpMethod.GET, requestEntity, Github[].class);
+
+      System.out.println("Parsing Results...");
+
+      System.out.println("Response: "+response.getStatusCode().toString());
+
+      Github[] githubRepos = response.getBody();
+
+
+      List<Github> repoList = Arrays.asList(githubRepos);
+
+      repoList.forEach((Github repo) -> {
+        System.out.println(repo.getName());
+        try {
+          Repository _repository = repositoryRepository.save(new Repository(repo.getName(), repo.getDescription() , false, repo.getDefault_branch(), repo.getLanguage(), repo.getOwner().getLogin(), repo.getName() ));
+
+        } catch (Exception e) {
+          log.error("Error saving repo: "+repo.getName());
+        }
+
+      });
+
+
+      log.info(response.getStatusCode().toString());
+      //Object github_object = restTemplate.getForObject(github, Github.class);
+      log.info(response.getBody().toString());
 
       if (Name == null)
         repositoryRepository.findAll().forEach(repositories::add);
@@ -119,6 +202,7 @@ public class RepositoryController {
 
       return new ResponseEntity<>(repositories, HttpStatus.OK);
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -126,7 +210,7 @@ public class RepositoryController {
   @PostMapping("/repositories")
   public ResponseEntity<Repository> createRepository(@RequestBody Repository repository) {
     try {
-      Repository _repository = repositoryRepository.save(new Repository(repository.getName(), repository.getDescription() , false, repository.getBranch(), repository.getLanguage(), repository.getOwner(), repository.getContributors(), repository.getProvider() ));
+      Repository _repository = repositoryRepository.save(new Repository(repository.getName(), repository.getDescription() , false, repository.getBranch(), repository.getLanguage(), repository.getOwner(), repository.getProvider() ));
       return new ResponseEntity<>(_repository, HttpStatus.CREATED);
     } catch (Exception e) {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
