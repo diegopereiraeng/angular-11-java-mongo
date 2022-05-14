@@ -2,6 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Repository } from 'src/app/models/repository.model';
 import { RepositoryService } from 'src/app/services/repository.service';
 
+// Feature Flags
+import { initialize, Event } from '@harnessio/ff-javascript-client-sdk'
+//import * as dotenv from 'dotenv';
+
+
+
+
 @Component({
   selector: 'app-repository-list',
   templateUrl: './repository-list.component.html',
@@ -12,11 +19,55 @@ export class RepositoriesListComponent implements OnInit {
   currentRepository?: Repository;
   currentIndex = -1;
   name = '';
+  repositoryEnabled = false;
 
-  constructor(private repositoryService: RepositoryService) { }
+  constructor(private repositoryService: RepositoryService) { 
+    console.log("App Starting")
+  }
 
-  ngOnInit(): void {
-    this.retrieveRepositories();
+  SetFlags(flag: String, value: boolean ): void {
+    this.repositoryEnabled = value;
+  }
+
+  
+
+  async ngOnInit(): Promise<void> {
+    //dotenv.config();
+    console.log("FF Starting")
+    let sdkKey = "e2148669-99aa-42e8-9a29-bd339c7ca5a8"; //process.env.FF_SDK_KEY || "e2148669-99aa-42e8-9a29-bd339c7ca5a8"
+    const cf = initialize(sdkKey, {
+      identifier: "Global",      // Target identifier
+      name: "Global",                  // Optional target name
+      attributes: {                            // Optional target attributes
+        email: 'global@harness.io'
+      }
+    });
+
+    cf.on(Event.READY, flags => {
+      console.log(JSON.stringify(flags, null, 2))
+      console.log(flags["Repositories"]);
+      this.repositoryEnabled = Boolean(flags["Repositories"]);
+      if (this.repositoryEnabled) {
+        this.retrieveRepositories();
+      }
+      else {
+        console.log("Not Authorized");
+      }
+      
+    })
+    
+    /* console.log("FF Initialized")
+    const repositories = cf.variation('Repositories', false);
+    
+    const result = JSON.stringify(repositories);
+    console.log("FF working! -> Result = "+repositories);
+    console.log("FF working! -> Result = "+Boolean(repositories)); */
+    
+    /* if (repositories) {
+      this.retrieveRepositories();
+    }   */
+    
+    
   }
 
   retrieveRepositories(): void {

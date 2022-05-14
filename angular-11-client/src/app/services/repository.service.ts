@@ -3,9 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Repository } from '../models/repository.model';
 
-const baseUrl = 'http://localhost:8080/api/repositories';
-//const baseUrl = 'http://harness-demo.site/spring-boot-server/api/repositories';
+//import * as dotenv from 'dotenv';
 
+const baseUrl = 'http://localhost:8080/api/repositories'; //process.env.REPOSITORY_BACKEND||'http://localhost:8080/api/repositories';
+//const baseUrl = 'http://harness-demo.site/spring-boot-server/api/repositories';
 
 
 @Injectable({
@@ -13,7 +14,10 @@ const baseUrl = 'http://localhost:8080/api/repositories';
 })
 export class RepositoryService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+
+  }
+  
 
   getAll(): Observable<Repository[]> {
     return this.http.get<Repository[]>(baseUrl);
