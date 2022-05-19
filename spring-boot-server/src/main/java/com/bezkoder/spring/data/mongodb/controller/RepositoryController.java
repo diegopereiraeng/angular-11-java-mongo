@@ -1,6 +1,8 @@
 package com.bezkoder.spring.data.mongodb.controller;
 
 import com.bezkoder.spring.data.mongodb.SpringBootDataMongodbApplication;
+import com.bezkoder.spring.data.mongodb.authservice.model.InstaUserDetails;
+import com.bezkoder.spring.data.mongodb.authservice.payload.UserSummary;
 import com.bezkoder.spring.data.mongodb.model.Repository;
 import com.bezkoder.spring.data.mongodb.model.providers.Github;
 import com.bezkoder.spring.data.mongodb.model.providers.Quote;
@@ -11,6 +13,8 @@ import io.harness.cf.client.dto.Target;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 import com.bezkoder.spring.data.mongodb.model.FeatureFlagsService;
 
@@ -31,7 +34,7 @@ import com.bezkoder.spring.data.mongodb.model.FeatureFlagsService;
 //@CrossOrigin(origins = "http://angular.harness-demo.site")
 //@CrossOrigin(origins = {"http://34.122.165.247"})
 
-@CrossOrigin(origins = "http://localhost:8081")
+//@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class RepositoryController {
@@ -78,10 +81,15 @@ public class RepositoryController {
     return flag;
   }
 
+  @RequestMapping("/")
+  public String home() {
+    return "{ \"id\": \"abc1-34ef-56jh-78il\", \"content\": \"Hello Customer\" }";
+  }
+
   @GetMapping("/quote")
   public String showQuote() {
     String quote = "{ \"type\": \"success\", \"value\": { \"id\": 10, \"quote\": \"Really loving Spring Boot, makes stand alone Spring apps easy.\" }}";
-    Target target = Target.builder().name("User1").identifier("user1@example.com").build();
+    Target target = Target.builder().name("Java_Backend").identifier("javabackend@harness.io").build();
     String menuVersion = ffClient.featureFlagService.stringVariation("Menu_Version", target, "v1");
     ffClient.featureFlagService.on(Event.READY, resultReady -> log.info("Flag ready {}",ConfigApp(resultReady)));
     ffClient.featureFlagService.on(Event.CHANGED, resultChanged -> ConfigApp(resultChanged, "changed"));
@@ -92,16 +100,27 @@ public class RepositoryController {
     return quote;
   }
 
+  @PreAuthorize("hasRole('USER') or hasRole('FACEBOOK_USER')")
   @GetMapping("/repositories")
-  public ResponseEntity<List<Repository>> getAllRepositories(@RequestParam(required = false) String Name) {
-    Target target = Target.builder().name("Global").identifier("global@harness.io").build();
+  public ResponseEntity<List<Repository>> getAllRepositories(@RequestParam(required = false) String Name, @AuthenticationPrincipal InstaUserDetails userDetails) {
+    UserSummary user = UserSummary
+            .builder()
+            .id(userDetails.getId())
+            .username(userDetails.getUsername())
+            .name(userDetails.getUserProfile().getDisplayName())
+            .profilePicture(userDetails.getUserProfile().getProfilePictureUrl())
+            .email(userDetails.getEmail())
+            .type(userDetails.getRoles().stream().findFirst().get().getName())
+            .build();
+
+    Target target = Target.builder().name(user.getName()).identifier(user.getUsername()).attribute("email",user.getEmail()).attribute("userType",user.getType()).build();
     Boolean ffDecision = this.ffClient.boolCheck("Repository_Filter",target, false);
     if (ffDecision){
       System.out.println("Repository filter is on");
       try {
-        Object quote = restTemplate.getForObject(url,Quote.class);
-        log.info(quote.toString());
-        //System.out.println("called");
+//        Object quote = restTemplate.getForObject(url,Quote.class);
+//        log.info(quote.toString());
+        System.out.println("target user: " + user.getUsername());
         List<Repository> repositories = new ArrayList<Repository>();
 
         if (Name == null)
@@ -115,6 +134,8 @@ public class RepositoryController {
 
         return new ResponseEntity<>(repositories, HttpStatus.OK);
       } catch (Exception e) {
+        System.out.println("Error Message: "+e.getMessage());
+        System.out.println("Error Cause: "+e.getCause());
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }

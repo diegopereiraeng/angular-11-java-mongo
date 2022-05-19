@@ -22,9 +22,9 @@ import com.bezkoder.spring.data.mongodb.model.Tutorial;
 import com.bezkoder.spring.data.mongodb.repository.TutorialRepository;
 
 
-@CrossOrigin(origins = "http://angular.harness-demo.site")
+//@CrossOrigin(origins = "http://angular.harness-demo.site")
 //@CrossOrigin(origins = {"http://34.122.165.247"})
-//@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class TutorialController {

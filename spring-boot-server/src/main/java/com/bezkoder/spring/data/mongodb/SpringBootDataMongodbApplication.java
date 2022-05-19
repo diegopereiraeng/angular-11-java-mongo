@@ -33,16 +33,6 @@ public class SpringBootDataMongodbApplication {
 		return builder.build();
 	}
 
-
-	/*@Bean
-	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
-		return args -> {
-			Github quote = restTemplate.getForObject(
-					"https://quoters.apps.pcfone.io/api/random", Github.class);
-			log.info(quote.toString());
-		};
-	}*/
-
 	@Bean
 	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
 		return args -> {
@@ -50,7 +40,6 @@ public class SpringBootDataMongodbApplication {
 
 		};
 	}
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootDataMongodbApplication.class, args);
