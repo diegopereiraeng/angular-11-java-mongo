@@ -21,7 +21,7 @@ class FeatureFlagsService {
 
     public CfClient featureFlagService;
 
-    Dotenv dotenv = Dotenv.load();
+    Dotenv dotenv = Dotenv.configure().directory("./").ignoreIfMalformed().ignoreIfMissing().load();
 
     public String sdkDefault = dotenv.get("SDK_KEY");
 

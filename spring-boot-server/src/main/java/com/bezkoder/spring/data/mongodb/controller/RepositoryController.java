@@ -45,7 +45,7 @@ public class RepositoryController {
   @Autowired
   private RestTemplate restTemplate;
 
-  Dotenv dotenv = Dotenv.load();
+  Dotenv dotenv = Dotenv.configure().directory("./").ignoreIfMalformed().ignoreIfMissing().load();
 
   private static final Logger log = LoggerFactory.getLogger(SpringBootDataMongodbApplication.class);
 
