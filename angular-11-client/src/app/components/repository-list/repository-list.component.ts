@@ -4,6 +4,7 @@ import { FF } from 'src/app/models/ff.model';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { FFService } from 'src/app/services/ff.service';
 import { AppService } from 'src/app/app.service';
+import { Router } from '@angular/router';
 
 // Feature Flags
 import { initialize, Event } from '@harnessio/ff-javascript-client-sdk'
@@ -24,7 +25,7 @@ export class RepositoriesListComponent implements OnInit {
   name = '';
   repositoryEnabled = false;
 
-  constructor(private app: AppService,private repositoryService: RepositoryService, private ff: FFService) { 
+  constructor(private app: AppService,private repositoryService: RepositoryService, private ff: FFService, private router: Router) { 
     console.log("App Starting")
     ff.SetFlags('Harness_Onboarding',false);
     ff.SetFlags('Repository_Filter',false);
@@ -140,6 +141,7 @@ export class RepositoriesListComponent implements OnInit {
   }
 
   onboarding(){
+    this.router.navigateByUrl('https://app.harness.io');
     
   }
 
