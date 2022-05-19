@@ -36,7 +36,7 @@ public class AuthEndpoint {
                 .ok(user);
     }
 
-
+    @CrossOrigin(origins = "http://angular.harness-demo.site")
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         String token = userService.loginUser(loginRequest.getUsername(), loginRequest.getPassword());
