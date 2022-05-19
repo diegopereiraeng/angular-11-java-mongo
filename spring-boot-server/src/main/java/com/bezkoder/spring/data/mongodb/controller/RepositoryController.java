@@ -31,7 +31,7 @@ import java.util.Optional;
 import com.bezkoder.spring.data.mongodb.model.FeatureFlagsService;
 
 
-//@CrossOrigin(origins = "http://angular.harness-demo.site")
+@CrossOrigin(origins = "http://angular.harness-demo.site")
 //@CrossOrigin(origins = {"http://34.122.165.247"})
 
 //@CrossOrigin(origins = "http://localhost:8081")
