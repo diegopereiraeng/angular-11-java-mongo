@@ -5,8 +5,8 @@ import { Message } from '../models/message.model';
 
 //import * as dotenv from 'dotenv';
 
-const baseUrl = 'http://localhost:8080/api/'; //process.env.REPOSITORY_BACKEND||'http://localhost:8080/api/repositories';
-//const baseUrl = 'http://harness-demo.site/spring-boot-server/api/repositories';
+//const baseUrl = 'http://localhost:8080/api/'; //process.env.REPOSITORY_BACKEND||'http://localhost:8080/api/repositories';
+const baseUrl = 'http://harness-demo.site/spring-boot-server/api/';
 
 
 @Injectable({
