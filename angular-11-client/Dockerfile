@@ -1,6 +1,6 @@
 #FROM nginx:1.17.1-alpine
 #COPY nginx.conf /etc/nginx/nginx.conf
-#COPY /dist/Angular11Crud /usr/share/nginx/html
+#COPY /dist/AngularHarnessDemo /usr/share/nginx/html
 
 
 # FROM node:12.11.0-alpine as build-stage

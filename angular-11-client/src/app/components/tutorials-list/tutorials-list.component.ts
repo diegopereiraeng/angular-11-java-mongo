@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Tutorial } from 'src/app/models/tutorial.model';
 import { TutorialService } from 'src/app/services/tutorial.service';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-tutorials-list',
@@ -13,7 +14,9 @@ export class TutorialsListComponent implements OnInit {
   currentIndex = -1;
   title = '';
 
-  constructor(private tutorialService: TutorialService) { }
+  constructor(private app: AppService,private tutorialService: TutorialService) { }
+
+  authenticated() { return this.app.authenticated; }
 
   ngOnInit(): void {
     this.retrieveTutorials();

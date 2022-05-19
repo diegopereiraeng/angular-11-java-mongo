@@ -9,6 +9,10 @@ import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.com
 import { TutorialDetailsComponent } from './components/tutorial-details/tutorial-details.component';
 import { TutorialsListComponent } from './components/tutorials-list/tutorials-list.component';
 import { RepositoriesListComponent } from './components/repository-list/repository-list.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { AppService } from './app.service';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +20,9 @@ import { RepositoriesListComponent } from './components/repository-list/reposito
     AddTutorialComponent,
     TutorialDetailsComponent,
     TutorialsListComponent,
-    RepositoriesListComponent
+    RepositoriesListComponent,
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +30,7 @@ import { RepositoriesListComponent } from './components/repository-list/reposito
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

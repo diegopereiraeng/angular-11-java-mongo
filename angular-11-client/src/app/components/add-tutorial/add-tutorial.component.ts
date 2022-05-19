@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Tutorial } from 'src/app/models/tutorial.model';
 import { TutorialService } from 'src/app/services/tutorial.service';
+import { AppService } from '../../app.service';
 
 @Component({
   selector: 'app-add-tutorial',
@@ -15,7 +16,9 @@ export class AddTutorialComponent implements OnInit {
   };
   submitted = false;
 
-  constructor(private tutorialService: TutorialService) { }
+  constructor(private app: AppService,private tutorialService: TutorialService) { }
+
+  authenticated() { return this.app.authenticated; }
 
   ngOnInit(): void {
   }

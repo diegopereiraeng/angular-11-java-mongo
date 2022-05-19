@@ -1,4 +1,4 @@
-<div class="list row">
+<div class="list row" [hidden]="!authenticated()">
   <div class="col-md-8">
     <div class="input-group mb-3">
       <input
@@ -60,4 +60,7 @@
       <p>Please click on a Tutorial...</p>
     </div>
   </div>
+</div>
+<div [hidden]="authenticated()">
+	<p>Login to see Tutorials</p>
 </div>

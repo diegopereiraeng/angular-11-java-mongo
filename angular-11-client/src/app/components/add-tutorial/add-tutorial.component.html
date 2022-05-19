@@ -1,4 +1,4 @@
-<div>
+<div [hidden]="!authenticated()">
   <div class="submit-form">
     <div *ngIf="!submitted">
       <div class="form-group">
@@ -32,4 +32,7 @@
       <button class="btn btn-success" (click)="newTutorial()">Add</button>
     </div>
   </div>
+</div>
+<div [hidden]="authenticated()">
+	<p>Login to add a Tutorial</p>
 </div>

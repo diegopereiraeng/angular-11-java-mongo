@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Angular11Crud": {
+    "AngularHarnessDemo": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/Angular11Crud",
+            "outputPath": "dist/AngularHarnessDemo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -65,18 +65,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Angular11Crud:build"
+            "browserTarget": "AngularHarnessDemo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Angular11Crud:build:production"
+              "browserTarget": "AngularHarnessDemo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Angular11Crud:build"
+            "browserTarget": "AngularHarnessDemo:build"
           }
         },
         "test": {
@@ -113,16 +113,19 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "Angular11Crud:serve"
+            "devServerTarget": "AngularHarnessDemo:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "Angular11Crud:serve:production"
+              "devServerTarget": "AngularHarnessDemo:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "Angular11Crud"
+  "defaultProject": "AngularHarnessDemo",
+  "cli": {
+    "analytics": false
+  }
 }
