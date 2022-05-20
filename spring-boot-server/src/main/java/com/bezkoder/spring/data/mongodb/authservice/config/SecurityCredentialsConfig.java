@@ -63,6 +63,7 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
     }
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // Configure DB authentication provider for user accounts
