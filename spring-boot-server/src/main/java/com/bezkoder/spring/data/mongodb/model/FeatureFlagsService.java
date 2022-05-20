@@ -17,7 +17,7 @@ public
 class FeatureFlagsService {
 
 
-    private static final Logger log = LoggerFactory.getLogger(SpringBootDataMongodbApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(FeatureFlagsService.class);
 
     public CfClient featureFlagService;
 
@@ -28,8 +28,9 @@ class FeatureFlagsService {
     // Constructors
 
     public FeatureFlagsService() {
-        final FileMapStore fileStore = new FileMapStore(dotenv.get("FF_ENV"));
-        CfClient ffClient = new CfClient(this.sdkDefault, BaseConfig.builder().store(fileStore).build());
+        CfClient ffClient = new CfClient(this.sdkDefault);
+//        final FileMapStore fileStore = new FileMapStore(dotenv.get("FF_ENV"));
+//        CfClient ffClient = new CfClient(this.sdkDefault, BaseConfig.builder().store(fileStore).build());
         this.featureFlagService = ffClient;
         Target target = Target.builder().name("User1").identifier("user1@example.com").build();
         String result = this.featureFlagService.stringVariation("Menu_Version", target, "v5");
@@ -37,8 +38,9 @@ class FeatureFlagsService {
     }
 
     public FeatureFlagsService(String Dimension) {
-        final FileMapStore fileStore = new FileMapStore(dotenv.get("FF_ENV")+"_"+Dimension);
-        CfClient ffClient = new CfClient(this.sdkDefault, BaseConfig.builder().store(fileStore).build());
+        //final FileMapStore fileStore = new FileMapStore(dotenv.get("FF_ENV")+"_"+Dimension);
+        //CfClient ffClient = new CfClient(this.sdkDefault, BaseConfig.builder().store(fileStore).build());
+        CfClient ffClient = new CfClient(this.sdkDefault);
         this.featureFlagService = ffClient;
         Target target = Target.builder().name("User1").identifier("user1@example.com").build();
         String result = this.featureFlagService.stringVariation("Menu_Version", target, "v5");
