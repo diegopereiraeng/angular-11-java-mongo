@@ -1,4 +1,4 @@
-FROM openjdk:13-ea-12-jdk-alpine
+FROM adoptopenjdk/openjdk11:x86_64-alpine-jre-11.0.15_10
 USER root
 RUN   apk update \
   &&   apk add ca-certificates wget curl \
@@ -13,4 +13,4 @@ ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 
 #ENTRYPOINT ["java","-Xmx128m","-Dspring.profiles.active=$SPRING_PROFILE","-Djdk.tls.client.protocols=TLSv1.2","-javaagent:/dd-java-agent.jar","-jar","/app.jar"]
-ENTRYPOINT ["java","-Xmx512m","-Djdk.tls.client.protocols=TLSv1.2","-jar","/app.jar"]
+ENTRYPOINT ["java","-Xmx712m","-Djdk.tls.client.protocols=TLSv1.2","-jar","/app.jar"]

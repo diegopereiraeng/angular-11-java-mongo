@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.bezkoder</groupId>
 	<artifactId>spring-boot-data-mongodb</artifactId>
-	<version>0.9.1-SNAPSHOT</version>
+	<version>0.9.2-SNAPSHOT</version>
 	<name>spring-boot-data-mongodb</name>
 	<description>Spring Boot CRUD Rest APIs with Spring Data MongoDB</description>
 

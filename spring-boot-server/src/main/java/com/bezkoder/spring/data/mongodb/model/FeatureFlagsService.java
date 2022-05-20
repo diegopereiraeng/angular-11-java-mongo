@@ -48,8 +48,9 @@ class FeatureFlagsService {
     }
 
     public FeatureFlagsService(String SDKKey, String Dimension) {
-        final FileMapStore fileStore = new FileMapStore(dotenv.get("FF_ENV")+"_"+Dimension);
-        CfClient cfClient = new CfClient(SDKKey, BaseConfig.builder().store(fileStore).build());
+        //final FileMapStore fileStore = new FileMapStore(dotenv.get("FF_ENV")+"_"+Dimension);
+        //CfClient cfClient = new CfClient(SDKKey, BaseConfig.builder().store(fileStore).build());
+        CfClient cfClient = new CfClient(SDKKey);
         this.featureFlagService = cfClient;
     }
 
