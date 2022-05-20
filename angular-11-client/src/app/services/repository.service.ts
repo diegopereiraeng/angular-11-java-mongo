@@ -6,8 +6,8 @@ import { AppService } from 'src/app/app.service';
 
 //import * as dotenv from 'dotenv';
 
-const baseUrl = 'http://localhost:8080/api/repositories'; //process.env.REPOSITORY_BACKEND||'http://localhost:8080/api/repositories';
-//const baseUrl = 'http://harness-demo.site/spring-boot-server/api/repositories';
+//const baseUrl = 'http://localhost:8080/api/repositories'; //process.env.REPOSITORY_BACKEND||'http://localhost:8080/api/repositories';
+const baseUrl = 'http://harness-demo.site/spring-boot-server/api/repositories';
 
 
 @Injectable({
