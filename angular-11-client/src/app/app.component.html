@@ -4,10 +4,10 @@
     <div class="navbar-nav mr-auto">
       <li class="nav-item"><a routerLink="/home" class="nav-link">Home</a></li>
       <li class="nav-item">
-        <a routerLink="tutorials" class="nav-link">Tutorials</a>
+        <a routerLink="tutorials" *ngIf="authenticated()" class="nav-link">Tutorials</a>
       </li>
       <li class="nav-item">
-        <a routerLink="add" class="nav-link">Add</a>
+        <a routerLink="add" *ngIf="authenticated()" class="nav-link">Add</a>
       </li>
       <li class="nav-item" *ngIf="allowRepository()">
         <a routerLink="repositories" class="nav-link">Repositories</a>
@@ -16,7 +16,4 @@
       <li><a (click)="logout()" class="nav-link" *ngIf="authenticated()">Logout</a></li>
     </div>
   </nav>
-</div>
-<div class="container">
-  <router-outlet></router-outlet>
 </div>
