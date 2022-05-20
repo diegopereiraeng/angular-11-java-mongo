@@ -1,6 +1,6 @@
 {
-  "name": "angular11-crud",
-  "version": "0.6.5",
+  "name": "harness-angular-demo",
+  "version": "0.9.5",
   "browser": {
     "fs": false,
     "path": false,
