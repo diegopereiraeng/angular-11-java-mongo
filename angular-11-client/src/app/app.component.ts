@@ -33,7 +33,6 @@ export class AppComponent implements OnInit{
     return this.app.authenticated;
   }
 
-
   constructor(private app: AppService, private http: HttpClient, private router: Router, private ff: FFService) {
     //this.app.authenticate(undefined, undefined);
 
@@ -62,6 +61,9 @@ export class AppComponent implements OnInit{
     this.http.post('http://harness-demo.site/spring-boot-server/logout', {}).pipe(
       finalize(() => {
         this.app.authenticated = false;
+        this.app.saveData("SessionID","")
+        this.app.saveData("name","")
+        this.app.saveData("username","")
         this.router.navigateByUrl('/login');
       })
       ).subscribe();

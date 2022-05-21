@@ -8,14 +8,6 @@ import { AppService } from 'src/app/app.service';
 import { initialize, Event, Result } from '@harnessio/ff-javascript-client-sdk'
 
 
-
-
-
-//const baseUrl = 'http://localhost:8080'; //process.env.REPOSITORY_BACKEND||'http://localhost:8080/api/repositories';
-const baseUrl = 'http://harness-demo.site/spring-boot-server/';
-
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -69,11 +61,11 @@ export class FFService {
 
     // Initialize Client
     this.cfClient = initialize(this.ffSdk, {
-      identifier: this.app.currentUser.username!,      // Target identifier
-      name: this.app.currentUser.name!,                  // Optional target name
+      identifier: this.app.getData("username") || this.app.currentUser.username!,      // Target identifier
+      name: this.app.getData("name") || this.app.currentUser.name!,                  // Optional target name
       attributes: {                            // Optional target attributes
-        email: this.app.currentUser.email!,
-        userType: this.app.currentUser.type!,
+        email: this.app.getData("email") || this.app.currentUser.email!,
+        userType: this.app.getData("type") || this.app.currentUser.type!,
         platform: navigator.platform,
         language: navigator.language,
         timezone: (Intl.DateTimeFormat().resolvedOptions().timeZone)
@@ -91,7 +83,6 @@ export class FFService {
       console.log(flags["Repositories"]);
       this.SetFlags("repositoryEnabled",Boolean(flags["Repositories"]));
       //this.SetFlags("harnessOnboardingEnabled",Boolean(flags["Harness_Onboarding"]));
-      
       
     })
 
@@ -129,7 +120,6 @@ export class FFService {
     
 
   }
-
 
   findIndexToUpdate(flagObj: any) { 
         return flagObj.flag === this;

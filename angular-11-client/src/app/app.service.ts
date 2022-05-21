@@ -17,6 +17,9 @@ export class AppService {
     authorization: string = this.token.tokenType + ' ' + this.token.accessToken
 
     constructor(private http: HttpClient) {
+        this.token.tokenType = "Bearer"
+        this.token.accessToken = this.getData("SessionID") || '';
+        this.recoverSessionAuth();
     }
 
     setToken(token: Token) {
@@ -26,6 +29,35 @@ export class AppService {
     getToken(){
         this.authorization = this.token.tokenType + ' ' + this.token.accessToken
         return this.authorization;
+    }
+
+    saveData(key:string , value: any) {
+        sessionStorage.setItem(key, value);
+    }
+
+    getData(key: string){
+    return sessionStorage.getItem(key);
+    }
+
+    removeData(key: string) {
+    sessionStorage.removeItem(key);
+    }
+
+    async recoverSessionAuth(){
+        const headers = new HttpHeaders({
+            authorization : this.token.tokenType + ' ' + this.token.accessToken
+        });
+        
+        //const response = await this.http.get<Auth>('http://localhost:8080/auth', {headers: headers}).toPromise();
+        const response = await this.http.get<Auth>('http://harness-demo.site/spring-boot-server/auth', {headers: headers}).toPromise();
+
+        if (response['name']) {
+            console.log("authenticating user: "+response['name'])
+            this.authenticated = true;
+            console.log(response['name']);
+        } else {
+            this.authenticated = false;
+        }
     }
 
     async authenticate(credentials: any, callback: any) {
@@ -61,8 +93,13 @@ export class AppService {
             this.currentUser.name = response.name;
             this.currentUser.email = response.email;
             this.currentUser.type = response.type;
+            this.saveData("username",response.username)
+            this.saveData("name",response.name)
+            this.saveData("email",response.email)
+            this.saveData("type",response.type)
 
             console.log("App Service: user "+response.username);
+            console.log("App Service: user "+this.getData("name"));
 
             return callback && callback();
         });

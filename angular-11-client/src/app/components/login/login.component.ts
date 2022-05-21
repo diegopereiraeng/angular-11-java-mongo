@@ -24,11 +24,17 @@ export class LoginComponent {
 
   constructor(private app: AppService, private http: HttpClient, private router: Router,private loginService: LoginService, private ff: FFService) {
     ff.SetFlags('Login_Version',"v1");
+    ff.SetFlags('Social_Login',"off");
   }
 
   loginEnabled(){
     console.log("login enabled: "+this.ff.GetFlags('Login_Version'))
     return String(this.ff.GetFlags('Login_Version'));
+  }
+
+  socialEnabled(){
+    console.log("social enabled: "+this.ff.GetFlags('Social_Login'))
+    return String(this.ff.GetFlags('Social_Login'));
   }
 
   login() {
@@ -38,6 +44,7 @@ export class LoginComponent {
         data => {
           this.token = data;
           this.app.setToken(this.token);
+          this.app.saveData("SessionID",this.token.accessToken)
           this.app.authenticate(this.credentials, () => {
             this.router.navigateByUrl('/');
             this.ff.renitializeSDK();
@@ -45,6 +52,7 @@ export class LoginComponent {
         },
         error => {
           console.log(error);
+
         });
 
     return false;

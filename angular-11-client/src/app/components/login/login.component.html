@@ -29,15 +29,16 @@
 		</p>
 		<button type="submit">Sign in</button>
     </form>
-    
-    <p class="or">
-    ----- or continue with -----
-    </p>
-    <div class="icons">
-		<i class="fab fa-google"></i>
-		<i class="fab fa-github"></i>
-		<i class="fab fa-facebook"></i>
-    </div>
+    <div *ngIf="socialEnabled() === 'all'">
+		<p class="or">
+		----- or continue with -----
+		</p>
+		<div class="icons">
+			<i class="fab fa-google"></i>
+			<i class="fab fa-github"></i>
+			<i class="fab fa-facebook"></i>
+		</div>
+	</div>
     <div class="not-member">
     Not a member? <a href="#">Register Now</a>
     </div>
