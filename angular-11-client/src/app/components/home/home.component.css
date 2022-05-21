@@ -10,7 +10,7 @@ body, html {
 
 .container {
   width: 100%;
-  height: 50vh;
+  height: 80vh;
   background: #232323;
   display: flex;
   justify-content: center;
