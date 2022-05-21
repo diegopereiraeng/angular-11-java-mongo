@@ -38,6 +38,14 @@ export class AppComponent implements OnInit{
     //this.app.authenticate(undefined, undefined);
 
     this.registerFlag = this.registerFlag.bind(this);
+
+
+    // New implementation ff -> lot better than
+    ff.SetFlags('App_Title',"Harness");
+  }
+
+  getTitle(): string {
+    return String(this.ff.GetFlags('App_Title'));
   }
 
   setRepositoryEnable(value: boolean){

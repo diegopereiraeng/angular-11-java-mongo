@@ -1,6 +1,6 @@
 <div class="container">
   <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a href="#" class="navbar-brand" style="margin:20px;padding:0px">Santander</a>
+    <a href="#" class="navbar-brand" style="margin:20px;padding:0px">{{getTitle()}}</a>
     <div class="navbar-nav mr-auto">
       <li class="nav-item"><a routerLink="/home" class="nav-link">Home</a></li>
       <li class="nav-item" *ngIf="authenticated()">
