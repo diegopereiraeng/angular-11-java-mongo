@@ -27,7 +27,7 @@ export class HomeComponent {
     }
 
     getGreatings(){
-        if (this.app.getData("name") == "Guest") {
+        if (this.app.getData("name") === "Guest" || this.app.getData("name") === null || this.app.getData("name") === '') {
             return null;
         } else {
             return "Hi "+this.app.getData("name")
