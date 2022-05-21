@@ -21,8 +21,6 @@ export class LoginComponent {
   
   token: Token = new Token;
 
-  v1 = "v1"
-  v2 = "v2"
 
   constructor(private app: AppService, private http: HttpClient, private router: Router,private loginService: LoginService, private ff: FFService) {
     ff.SetFlags('Login_Version',"v1");

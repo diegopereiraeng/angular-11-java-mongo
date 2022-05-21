@@ -55,7 +55,7 @@ button{
   cursor: pointer;
 }
 button:hover{
-  background: rgba(122, 30, 30, 0.767);
+  background: rgb(13, 117, 165);
 }
 .or{
   font-size: 0.8rem;
