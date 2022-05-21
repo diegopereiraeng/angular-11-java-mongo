@@ -6,8 +6,12 @@ import { LoginService } from 'src/app/services/login.service';
 import { FFService } from 'src/app/services/ff.service';
 import { Token } from 'src/app/models/token.model';
 
+
+
 @Component({
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styles: ["@import \"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css\";"],
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
 
@@ -17,7 +21,16 @@ export class LoginComponent {
   
   token: Token = new Token;
 
+  v1 = "v1"
+  v2 = "v2"
+
   constructor(private app: AppService, private http: HttpClient, private router: Router,private loginService: LoginService, private ff: FFService) {
+    ff.SetFlags('Login_Version',"v1");
+  }
+
+  loginEnabled(){
+    console.log("login enabled: "+this.ff.GetFlags('Login_Version'))
+    return String(this.ff.GetFlags('Login_Version'));
   }
 
   login() {

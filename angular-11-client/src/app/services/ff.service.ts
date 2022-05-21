@@ -113,7 +113,7 @@ export class FFService {
   }
 
 
-  SetFlags(flag: string, value: boolean ): void {
+  SetFlags(flag: string, value: any ): void {
     
     this.flags.filter(flagObj => flagObj.flag == flag)
     let ffToUpdate = new FF(flag,value);
@@ -130,11 +130,12 @@ export class FFService {
 
   }
 
+
   findIndexToUpdate(flagObj: any) { 
         return flagObj.flag === this;
   }
 
-  GetFlags(flag: string ): boolean {
+  GetFlags(flag: string ): any {
     
     this.flags.filter(flagObj => flagObj.flag == flag)
     let ffToUpdate = new FF(flag,false);
@@ -145,6 +146,8 @@ export class FFService {
     
     return this.flags[index].value
   }
+
+
 
   ngOnChanges(changes: SimpleChanges) {
 
