@@ -12,6 +12,7 @@ import { RepositoriesListComponent } from './components/repository-list/reposito
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { AppService } from './app.service';
+import { SinupComponent } from './components/signup/signup.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AppService } from './app.service';
     TutorialsListComponent,
     RepositoriesListComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    SinupComponent
   ],
   imports: [
     BrowserModule,

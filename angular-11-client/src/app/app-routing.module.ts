@@ -6,6 +6,7 @@ import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.com
 import { RepositoriesListComponent } from './components/repository-list/repository-list.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { SinupComponent } from './components/signup/signup.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'add', component: AddTutorialComponent },
   { path: 'repositories', component: RepositoriesListComponent },
   { path: 'home', component: HomeComponent},
-  { path: 'login', component: LoginComponent}
+  { path: 'login', component: LoginComponent},
+  { path: 'signup', component: SinupComponent}
 ];
 
 @NgModule({
