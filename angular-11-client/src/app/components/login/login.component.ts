@@ -26,16 +26,15 @@ export class LoginComponent {
   constructor(private app: AppService, private http: HttpClient, private router: Router,private loginService: LoginService, private ff: FFService) {
     ff.SetFlags('Login_Version',"v1");
     ff.SetFlags('Social_Login',"off");
-    console.log(this.loginService.getLocation())
   }
 
   loginEnabled(){
-    console.log("login enabled: "+this.ff.GetFlags('Login_Version'))
+    //console.log("login enabled: "+this.ff.GetFlags('Login_Version'))
     return String(this.ff.GetFlags('Login_Version'));
   }
 
   socialEnabled(){
-    console.log("social enabled: "+this.ff.GetFlags('Social_Login'))
+    //console.log("social enabled: "+this.ff.GetFlags('Social_Login'))
     return String(this.ff.GetFlags('Social_Login'));
   }
 

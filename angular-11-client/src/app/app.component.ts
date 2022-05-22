@@ -41,6 +41,7 @@ export class AppComponent implements OnInit{
 
     // New implementation ff -> lot better than
     ff.SetFlags('App_Title',"Harness");
+    ff.SetFlags('Repositories',false);
   }
 
   getTitle(): string {
@@ -52,8 +53,9 @@ export class AppComponent implements OnInit{
   }
 
   allowRepository(){
-    console.log("allowRepository = "+this.appRepositoryEnabled)
-    return this.appRepositoryEnabled;
+    //console.log("allowRepository = "+this.appRepositoryEnabled)
+    //return this.appRepositoryEnabled;
+    return this.ff.GetFlags("Repositories");
   }
 
   logout() {
@@ -64,6 +66,8 @@ export class AppComponent implements OnInit{
         this.app.saveData("SessionID","")
         this.app.saveData("name","")
         this.app.saveData("username","")
+        this.app.saveData("email","")
+        this.app.saveData("type","")
         this.router.navigateByUrl('/login');
       })
       ).subscribe();
@@ -86,17 +90,17 @@ export class AppComponent implements OnInit{
     console.log("App Components: FF Starting")
     
     this.appRepositoryEnabled = this.ff.GetFlags("repositoryEnabled")
-    console.log("flag repository enabled. value = "+ this.appRepositoryEnabled);
+    //console.log("flag repository enabled. value = "+ this.appRepositoryEnabled);
 
     this.ff.registerEvent(Event.CHANGED, this.registerFlag);
 
   }
 
   registerFlag(flag: any): void {
-    console.log("registerFlag event");
-    console.log("flag: "+flag.flag+" value: "+flag.value);
+    //console.log("registerFlag event");
+    //console.log("flag: "+flag.flag+" value: "+flag.value);
     if (flag.flag === "Repositories") {
-      console.log("flag: "+flag.flag+" value: "+flag.value);
+      //console.log("flag: "+flag.flag+" value: "+flag.value);
       const value: boolean = flag.value;
       
       this.setRepositoryEnable(value);

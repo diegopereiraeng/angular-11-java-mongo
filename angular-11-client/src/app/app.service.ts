@@ -3,23 +3,53 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Token } from 'src/app/models/token.model';
 import { Auth } from 'src/app/models/auth.model';
 import { User } from 'src/app/models/user.model';
-
+import { UserLocation } from 'src/app/models/userLocation.model';
+import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 @Injectable()
 export class AppService {
 
     authenticated = false;
 
-    currentUser = new User("Guest","guest","guest@demo.com","GUEST");
+    currentUser = new User("Guest "+(JSON.parse(this.getData("UserLocation")!) as UserLocation).regionName,"guest-"+(JSON.parse(this.getData("UserLocation")!) as UserLocation).region,"guest@demo.com","GUEST");
 
     token: Token = new Token;
 
     authorization: string = this.token.tokenType + ' ' + this.token.accessToken
 
+    lastLocation = new Observable<UserLocation>();
+
     constructor(private http: HttpClient) {
         this.token.tokenType = "Bearer"
         this.token.accessToken = this.getData("SessionID") || '';
         this.recoverSessionAuth();
+    }
+
+    getDifferenceInMinutes(date1: number, date2: number) {
+        const diffInMs = Math.abs(date2 - date1);
+        return diffInMs / (1000 * 60);
+    }
+
+    getLocation(): Observable<UserLocation> {
+
+        const location = this.getData("Location");
+        const locationDate = new Date(this.getData("LocationDate")!).valueOf();
+        const locationDateCheck = new Date().valueOf(); 
+        const diff = (locationDateCheck - locationDate) / 60000;
+        console.log("Last Location Collection diff "+diff)
+
+        //const minDiff = parseInt(Math.abs(locationDateCheck - locationDate) / (1000 * 60) % 60);
+        //console.log("Diego: "+this.getDifferenceInMinutes(locationDate,locationDate))
+        if (diff >= 1.00 ) {
+            console.log("Collecting Location diff was "+diff)
+            return this.http.get<UserLocation>(`http://ip-api.com/json`);
+
+        }
+
+        return of((JSON.parse(this.getData("UserLocation")!) as UserLocation));
+        
+    
     }
 
     setToken(token: Token) {
