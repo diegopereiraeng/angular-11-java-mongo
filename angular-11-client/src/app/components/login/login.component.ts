@@ -20,11 +20,13 @@ export class LoginComponent {
   error = false;
   
   token: Token = new Token;
+  
 
 
   constructor(private app: AppService, private http: HttpClient, private router: Router,private loginService: LoginService, private ff: FFService) {
     ff.SetFlags('Login_Version',"v1");
     ff.SetFlags('Social_Login',"off");
+    console.log(this.loginService.getLocation())
   }
 
   loginEnabled(){

@@ -20,6 +20,14 @@ export class LoginService {
 
   }
   
+  //http://ip-api.com/json
+  
+  getLocation(): Observable<Object> {
+  
+    return this.http.get<Object>(`http://ip-api.com/json`);
+  
+  }
+  
   login(data: any): Observable<Token> {
 
     return this.http.post<Token>(`${baseUrl}/signin`,data);
