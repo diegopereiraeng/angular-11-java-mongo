@@ -12,18 +12,27 @@ export class AppService {
 
     authenticated = false;
 
-    currentUser = new User("Guest "+(JSON.parse(this.getData("UserLocation")!) as UserLocation).regionName,"guest-"+(JSON.parse(this.getData("UserLocation")!) as UserLocation).region,"guest@demo.com","GUEST");
+    currentUser = new User("Guest","guest","guest@guest.com","GUEST");
 
     token: Token = new Token;
 
     authorization: string = this.token.tokenType + ' ' + this.token.accessToken
 
-    lastLocation = new Observable<UserLocation>();
+    lastLocation = new UserLocation();
 
     constructor(private http: HttpClient) {
         this.token.tokenType = "Bearer"
         this.token.accessToken = this.getData("SessionID") || '';
         this.recoverSessionAuth();
+        this.getLocation().subscribe((location: UserLocation) => {
+            this.lastLocation = location;
+            this.currentUser.name = "Guest "+(JSON.parse(this.getData("UserLocation")!) as UserLocation)?.regionName || "Guest"
+            this.currentUser.username = "guest-"+((JSON.parse(this.getData("UserLocation")!) as UserLocation)?.region || 'guest').toLowerCase()
+            this.currentUser.email = "guest@guest."+((JSON.parse(this.getData("UserLocation")!) as UserLocation)?.region || 'guest').toLowerCase()+".com"
+            this.saveData("UserLocation",JSON.stringify(location));
+            this.saveData("Location",true)
+            this.saveData("LocationDate",new Date())
+        })
     }
 
     getDifferenceInMinutes(date1: number, date2: number) {
@@ -34,6 +43,11 @@ export class AppService {
     getLocation(): Observable<UserLocation> {
 
         const location = this.getData("Location");
+        if (location === null) {
+            console.log();
+        } else {
+            return this.http.get<UserLocation>(`http://ip-api.com/json`);
+        }
         const locationDate = new Date(this.getData("LocationDate")!).valueOf();
         const locationDateCheck = new Date().valueOf(); 
         const diff = (locationDateCheck - locationDate) / 60000;
