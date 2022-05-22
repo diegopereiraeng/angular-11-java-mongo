@@ -30,7 +30,7 @@
     </form>
 
     <button
-      class="badge badge-primary mr-2"
+      class="btn btn-warning btn-sm"
       *ngIf="currentTutorial.published"
       (click)="updatePublished(false)"
     >
@@ -38,19 +38,19 @@
     </button>
     <button
       *ngIf="!currentTutorial.published"
-      class="badge badge-primary mr-2"
+      class="btn btn-success btn-sm"
       (click)="updatePublished(true)"
     >
       Publish
     </button>
 
-    <button class="badge badge-danger mr-2" (click)="deleteTutorial()">
+    <button class="btn btn-danger btn-sm" (click)="deleteTutorial()">
       Delete
     </button>
 
     <button
       type="submit"
-      class="badge badge-success mb-2"
+      class="btn btn-primary btn-sm"
       (click)="updateTutorial()"
     >
       Update

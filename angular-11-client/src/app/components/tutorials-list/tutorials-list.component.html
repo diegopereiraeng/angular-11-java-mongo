@@ -21,14 +21,34 @@
   <div class="col-md-6">
     <h4>Tutorials List</h4>
     <ul class="list-group">
+      <div
+        *ngFor="let tutorial of tutorials; let i = index"
+        
+      >
       <li
         class="list-group-item"
-        *ngFor="let tutorial of tutorials; let i = index"
         [class.active]="i == currentIndex"
         (click)="setActiveTutorial(tutorial, i)"
       >
         {{ tutorial.title }}
       </li>
+      <div *ngIf="currentIndex == i && userAgent != 'desktop' && userAgent != 'chrome'" class="list-group-item-detail">
+        <div>
+          <label><strong>Title:</strong></label> {{ currentTutorial?.title }}
+        </div>
+        <div>
+          <label><strong>Description:</strong></label>
+          {{ currentTutorial?.description }}
+        </div>
+        <div>
+          <label><strong>Status:</strong></label>
+          {{ currentTutorial?.published ? "Published" : "Pending" }}
+        </div>
+        <a class="btn btn-primary btn-sm" routerLink="/tutorials/{{ currentTutorial?.id }}">
+          Edit
+        </a>
+      </div>
+    </div>
     </ul>
 
     <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTutorials()">
@@ -36,7 +56,7 @@
     </button>
   </div>
   <div class="col-md-6">
-    <div *ngIf="currentTutorial">
+    <div *ngIf="currentTutorial && userAgent != 'mobile'" >
       <h4>Tutorial</h4>
       <div>
         <label><strong>Title:</strong></label> {{ currentTutorial.title }}
@@ -61,6 +81,8 @@
     </div>
   </div>
 </div>
+
+
 <div [hidden]="authenticated()">
 	<p>Login to see Tutorials</p>
 </div>

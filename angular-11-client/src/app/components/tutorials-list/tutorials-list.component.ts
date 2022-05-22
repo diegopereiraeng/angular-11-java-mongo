@@ -13,9 +13,22 @@ export class TutorialsListComponent implements OnInit {
   currentTutorial?: Tutorial;
   currentIndex = -1;
   title = '';
+  userAgent = 'desktop';
 
-  constructor(private app: AppService,private tutorialService: TutorialService) { }
+  constructor(private app: AppService,private tutorialService: TutorialService) { 
+    var ua = navigator.userAgent;
 
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)){
+      this.userAgent = "mobile"
+    }
+    else if(/Chrome/i.test(ua)){
+      this.userAgent = "chrome"
+    }
+    else {
+      this.userAgent = "desktop"
+    }
+  }
+  
   authenticated() { return this.app.authenticated; }
 
   ngOnInit(): void {
