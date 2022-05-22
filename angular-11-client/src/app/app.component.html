@@ -1,7 +1,7 @@
 <div class="container">
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <a href="#" class="navbar-brand" style="margin:20px;padding:0px">{{getTitle()}}</a>
-    <div class="navbar-nav mr-auto">
+    <div class="navbar-nav mr-auto scroll">
       <li class="nav-item"><a routerLink="/home" class="nav-link">Home</a></li>
       <li class="nav-item" *ngIf="authenticated()">
         <a routerLink="tutorials" class="nav-link">Tutorials</a>
@@ -13,6 +13,9 @@
         <a routerLink="repositories" class="nav-link" *ngIf="authenticated()">Repositories</a>
       </li>
       <li class="nav-item"><a routerLink="/login" class="nav-link" *ngIf="!authenticated()">Login</a></li>
+      <li><a (click)="logout()" class="nav-link" *ngIf="authenticated()">Logout</a></li>
+      <li><a (click)="logout()" class="nav-link" *ngIf="authenticated()">Logout</a></li>
+      <li><a (click)="logout()" class="nav-link" *ngIf="authenticated()">Logout</a></li>
       <li><a (click)="logout()" class="nav-link" *ngIf="authenticated()">Logout</a></li>
     </div>
   </nav>
