@@ -6,14 +6,18 @@
     <li [className]="stepEnabled(2) ? 'is-active' : ''">Step 2</li>
     <li [className]="stepEnabled(3) ? 'is-active' : ''">Step 3</li>
     </ul>
-    <form class="form-wrapper">
+    <form class="form-wrapper" [formGroup]="signupFormGroup">
     <fieldset [className]="stepEnabled(1) ? 'is-active' : ''" class="section" *ngIf="stepEnabled(1)">
         <h3>Signup</h3>
-        <input class="input" type="text" name="name" id="name" placeholder="Name" [(ngModel)]="user.name">
-        <input class="input" type="text" name="name" id="name" placeholder="User Name" [(ngModel)]="user.username">
-        <input type="text" name="email" id="email" placeholder="Email" [(ngModel)]="user.email">
-        <div class="button" (click)="next(2)">Next</div>
+
+        <input formControlName="name"  class="form-control" type="text" name="name" id="name" placeholder="Name" > <!-- [(ngModel)]="user.name"> -->
+        <input formControlName="username" class="form-control" type="text" name="username" id="username" placeholder="User Name"> <!--  [(ngModel)]="user.username"> -->
+        <input formControlName="email" class="form-control" type="text" name="email" id="email"  placeholder="Email"> <!--  [(ngModel)]="user.email"> -->        
+        <div><button class="next" (click)="next(2)" [disabled]="!signupFormGroup.valid">Next</button></div>
     </fieldset>
+    
+    </form>
+    <form class="form-wrapper" [formGroup]="signupFormGroup2" *ngIf="stepEnabled(2) || stepEnabled(3) || stepEnabled(4)">
     <fieldset class="section" [className]="stepEnabled(2) ? 'is-active' : ''" *ngIf="stepEnabled(2)">
         <h3>Account Type</h3>
         <div class="row cf">
@@ -38,13 +42,16 @@
             </label>
         </div>
         </div>
-        <div class="button" (click)="next(3)">Next</div>
+        <div class="inline"><button class="previous" (click)="next(1)" [disabled]="!signupFormGroup.valid">Back</button></div>
+        <div class="inline back"><button class="next" (click)="next(3)" [disabled]="!signupFormGroup.valid">Next</button></div>
+
     </fieldset>
     <fieldset class="section" [className]="stepEnabled(3) ? 'is-active' : ''" *ngIf="stepEnabled(3)">
         <h3>Choose a Password</h3>
-        <input type="password" name="password" id="password" placeholder="Password" [(ngModel)]="user.password">
-        <input type="password" name="password2" id="password2" placeholder="Re-enter Password" [(ngModel)]="user.password2">
-        <input class="submit button" (click)="signup()" type="submit" value="Sign Up">
+        <input formControlName="password" type="password" name="password" id="password" placeholder="Password" ><!-- [(ngModel)]="user.password"> -->
+        <input formControlName="password2" type="password" name="password2" id="password2"  placeholder="Re-enter Password"><!--  [(ngModel)]="user.password2"> -->
+        <div class="inline"><button class="previous" (click)="next(2)">Back</button></div>
+        <div class="inline final"><button class="next" (click)="signup()" type="submit" [disabled]="!signupFormGroup2.valid">Next</button></div>
     </fieldset>
     <fieldset class="section" [className]="stepEnabled(4) ? 'is-active' : ''" *ngIf="stepEnabled(4)">
         <h3>Account Created! </h3>
