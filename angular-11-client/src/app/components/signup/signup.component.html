@@ -62,7 +62,7 @@
             </label>
         </div>
         </div>
-        <div class="inline"><button class="previous" (click)="next(1)" [disabled]="!signupFormGroup.valid">Back</button></div>
+        <div class="inline"><button class="previous" (click)="next(1)">Back</button></div>
         <div class="inline back"><button class="next" (click)="next(3)" [disabled]="!signupFormGroup.valid">Next</button></div>
 
     </fieldset>
@@ -71,25 +71,21 @@
         <input formControlName="password" type="password" name="password" id="password" placeholder="Password" ><!-- [(ngModel)]="user.password"> -->
         <input formControlName="password2" type="password" name="password2" id="password2"  placeholder="Re-enter Password"><!--  [(ngModel)]="user.password2"> -->
         <div class="inline"><button class="previous" (click)="next(2)">Back</button></div>
-        <div class="inline final"><button class="next" (click)="signup()" type="submit" [disabled]="!signupFormGroup2.valid">Next</button></div>
+        <div class="inline final"><button class="next" (click)="signup()" type="submit" [disabled]="!signupFormGroup2.valid && !signupFormGroup.valid">Next</button></div>
         <br>
         <ng-container *ngIf="signupFormGroup2.controls.password.touched">
-        <span *ngIf="signupFormGroup2.controls.password.errors?.required">
-            Password is Required
-        </span>
         <span *ngIf="signupFormGroup2.controls.password.hasError('minlength')">
             Password is not big enough
         </span>
+        <br *ngIf="signupFormGroup2.controls.password.errors?.passwordStrength">
         <span *ngIf="signupFormGroup2.controls.password.errors?.passwordStrength">
-            Password is strong enough
+            Password is not strength enough
         </span>
-        <br>
+        <br *ngIf="signupFormGroup2.controls.password2.errors?.mismatch">
         </ng-container>
-        <ng-container *ngIf="signupFormGroup2.controls.password2.touched">
-        <span *ngIf="signupFormGroup2.controls.password2.errors">
-            Confirm Password is Required
+        <span *ngIf="signupFormGroup2.controls.password2.touched && signupFormGroup2.controls.password2.errors?.mismatch || signupFormGroup2.controls.password.errors?.mismatch">
+            Password and Confirm Password doesn't match
         </span>
-        </ng-container>
     </fieldset>
     <fieldset class="section" [className]="stepEnabled(4) ? 'is-active' : ''" *ngIf="stepEnabled(4)">
         <h3>Account Created! </h3>

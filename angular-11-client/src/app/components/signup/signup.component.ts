@@ -3,7 +3,7 @@ import { AppService } from '../../app.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FFService } from 'src/app/services/ff.service';
 import {FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn, FormGroup } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CustomValidator } from '../../shared/validation.shared';
 //import * as $ from "jquery";
 
 declare var jquery: any;
@@ -12,11 +12,12 @@ declare var $: any;
 export function createPasswordStrengthValidator(): ValidatorFn {
     return (control:AbstractControl) : ValidationErrors | null => {
 
-        const value = control.value;
-        console.log(value)
-        if (!value) {
+        if (!control || !control.parent) {
             return null;
         }
+        const value = control.value;
+        //console.log(value);
+
 
         const hasUpperCase = /[A-Z]+/.test(value);
 
@@ -27,6 +28,21 @@ export function createPasswordStrengthValidator(): ValidatorFn {
         const passwordValid = hasUpperCase && hasLowerCase && hasNumeric;
         
         return !passwordValid ? {passwordStrength:true}: null;
+
+    }
+}
+
+export function checkPasswordConfirmation(confirmPassword: string): ValidatorFn {
+    return (control:AbstractControl) : ValidationErrors | null => {
+
+        if (!control || !control.parent) {
+            return null;
+        }
+        const value = control.value;
+        const confirmValue = control?.parent?.get(confirmPassword)?.value;
+        //console.log(value," = ",confirmValue);
+
+        return confirmValue === value? null : { mismatch: true };
     }
 }
 
@@ -77,8 +93,8 @@ export class SinupComponent {
             // O valor padrão deste formControl será vazio
             // e os demais vazio
             // *********************************************
-            password: [null, [Validators.required, Validators.minLength(8)]],
-            password2: [null, [Validators.required, Validators.minLength(8), createPasswordStrengthValidator() ]],
+            password: [null, [Validators.required, Validators.minLength(8), createPasswordStrengthValidator()]],
+            password2: [null, [Validators.required, Validators.minLength(8), checkPasswordConfirmation('password') ]],
         });
 
         
@@ -87,8 +103,13 @@ export class SinupComponent {
     
 
     signup() {
+        if (this.signupFormGroup2.get('password')?.value === this.signupFormGroup2.get('password2')?.value) {
+            this.next(4);
+        } else {
+            console.log("Passwords are not the same!")
+            this.signupFormGroup2.controls['password2'].updateValueAndValidity();
+        }
         
-        this.next(4);
     }
 
     next(step: number){
