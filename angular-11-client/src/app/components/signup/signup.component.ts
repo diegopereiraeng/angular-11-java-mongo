@@ -13,7 +13,7 @@ export function createPasswordStrengthValidator(): ValidatorFn {
     return (control:AbstractControl) : ValidationErrors | null => {
 
         const value = control.value;
-
+        console.log(value)
         if (!value) {
             return null;
         }
@@ -25,7 +25,7 @@ export function createPasswordStrengthValidator(): ValidatorFn {
         const hasNumeric = /[0-9]+/.test(value);
 
         const passwordValid = hasUpperCase && hasLowerCase && hasNumeric;
-
+        
         return !passwordValid ? {passwordStrength:true}: null;
     }
 }
@@ -77,8 +77,8 @@ export class SinupComponent {
             // O valor padrão deste formControl será vazio
             // e os demais vazio
             // *********************************************
-            password: ['', Validators.required],
-            password2: ['', Validators.required],
+            password: [null, [Validators.required, Validators.minLength(8)]],
+            password2: [null, [Validators.required, Validators.minLength(8), createPasswordStrengthValidator() ]],
         });
 
         

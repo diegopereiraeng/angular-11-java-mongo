@@ -11,20 +11,30 @@
         <h3>Signup</h3>
 
         <input formControlName="name"  class="form-control" type="text" name="name" id="name" placeholder="Name" > <!-- [(ngModel)]="user.name"> -->
+        <ng-container *ngIf="signupFormGroup.controls.name.touched">
+            <span *ngIf="signupFormGroup.controls.name.errors?.required">
+                Name is Required
+            </span>
+        </ng-container>
         <input formControlName="username" class="form-control" type="text" name="username" id="username" placeholder="User Name"> <!--  [(ngModel)]="user.username"> -->
+        <ng-container *ngIf="signupFormGroup.controls.username.touched">
+            <span *ngIf="signupFormGroup.controls.username.errors?.required">
+            Username is Required
+            </span>
+            </ng-container>
         <input formControlName="email" class="form-control" type="text" name="email" id="email"  placeholder="Email"> <!--  [(ngModel)]="user.email"> -->        
+        <ng-container *ngIf="signupFormGroup.controls.email.touched">
+            <span *ngIf="signupFormGroup.controls.email.errors?.required">
+            Email is Required
+            </span>
+            <span *ngIf="signupFormGroup.controls.email.errors?.email">
+                Email is Invalid
+                </span>
+            </ng-container>
         <div><button class="next" (click)="next(2)" [disabled]="!signupFormGroup.valid">Next</button></div>
-        <span *ngIf="signupFormGroup.controls.name.errors">
-            Name is Required
-        </span>
-        <br>
-        <span *ngIf="signupFormGroup.controls.username.errors">
-        Username is Required
-        </span>
-        <br>
-        <span *ngIf="signupFormGroup.controls.email.errors">
-        Email is Required
-        </span>
+        
+        
+        
     </fieldset>
     </form>
     <form class="form-wrapper" [formGroup]="signupFormGroup2" *ngIf="stepEnabled(2) || stepEnabled(3) || stepEnabled(4)">
@@ -63,13 +73,23 @@
         <div class="inline"><button class="previous" (click)="next(2)">Back</button></div>
         <div class="inline final"><button class="next" (click)="signup()" type="submit" [disabled]="!signupFormGroup2.valid">Next</button></div>
         <br>
-        <span *ngIf="signupFormGroup2.controls.password.errors">
+        <ng-container *ngIf="signupFormGroup2.controls.password.touched">
+        <span *ngIf="signupFormGroup2.controls.password.errors?.required">
             Password is Required
         </span>
+        <span *ngIf="signupFormGroup2.controls.password.hasError('minlength')">
+            Password is not big enough
+        </span>
+        <span *ngIf="signupFormGroup2.controls.password.errors?.passwordStrength">
+            Password is strong enough
+        </span>
         <br>
+        </ng-container>
+        <ng-container *ngIf="signupFormGroup2.controls.password2.touched">
         <span *ngIf="signupFormGroup2.controls.password2.errors">
             Confirm Password is Required
         </span>
+        </ng-container>
     </fieldset>
     <fieldset class="section" [className]="stepEnabled(4) ? 'is-active' : ''" *ngIf="stepEnabled(4)">
         <h3>Account Created! </h3>
