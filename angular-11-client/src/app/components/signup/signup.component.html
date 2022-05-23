@@ -14,8 +14,18 @@
         <input formControlName="username" class="form-control" type="text" name="username" id="username" placeholder="User Name"> <!--  [(ngModel)]="user.username"> -->
         <input formControlName="email" class="form-control" type="text" name="email" id="email"  placeholder="Email"> <!--  [(ngModel)]="user.email"> -->        
         <div><button class="next" (click)="next(2)" [disabled]="!signupFormGroup.valid">Next</button></div>
+        <span *ngIf="signupFormGroup.controls.name.errors">
+            Name is Required
+        </span>
+        <br>
+        <span *ngIf="signupFormGroup.controls.username.errors">
+        Username is Required
+        </span>
+        <br>
+        <span *ngIf="signupFormGroup.controls.email.errors">
+        Email is Required
+        </span>
     </fieldset>
-    
     </form>
     <form class="form-wrapper" [formGroup]="signupFormGroup2" *ngIf="stepEnabled(2) || stepEnabled(3) || stepEnabled(4)">
     <fieldset class="section" [className]="stepEnabled(2) ? 'is-active' : ''" *ngIf="stepEnabled(2)">
@@ -52,6 +62,14 @@
         <input formControlName="password2" type="password" name="password2" id="password2"  placeholder="Re-enter Password"><!--  [(ngModel)]="user.password2"> -->
         <div class="inline"><button class="previous" (click)="next(2)">Back</button></div>
         <div class="inline final"><button class="next" (click)="signup()" type="submit" [disabled]="!signupFormGroup2.valid">Next</button></div>
+        <br>
+        <span *ngIf="signupFormGroup2.controls.password.errors">
+            Password is Required
+        </span>
+        <br>
+        <span *ngIf="signupFormGroup2.controls.password2.errors">
+            Confirm Password is Required
+        </span>
     </fieldset>
     <fieldset class="section" [className]="stepEnabled(4) ? 'is-active' : ''" *ngIf="stepEnabled(4)">
         <h3>Account Created! </h3>
@@ -59,5 +77,6 @@
         <div routerLink="/login" class="button">Sign in</div>
     </fieldset>
     </form>
+    
 </div>
 </div>
