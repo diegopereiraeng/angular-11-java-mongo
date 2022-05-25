@@ -13,6 +13,7 @@ export class CustomValidator {
             invalidUrl: true
         };
     }
+    
     // Validates passwords
     static matchPassword(group: any ): any {
         const password = group.controls.password;

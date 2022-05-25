@@ -7,7 +7,7 @@ import { AppService } from 'src/app/app.service';
 import { Router } from '@angular/router';
 
 // Feature Flags
-import { initialize, Event } from '@harnessio/ff-javascript-client-sdk'
+import { Event } from '@harnessio/ff-javascript-client-sdk'
 //import * as dotenv from 'dotenv';
 
 

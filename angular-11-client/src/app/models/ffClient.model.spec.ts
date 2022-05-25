@@ -1,4 +1,4 @@
-import { FFClient } from './ffClients.model';
+import { FFClient } from './ffClient.model';
 
 describe('Repository', () => {
   it('should create an instance', () => {

@@ -45,6 +45,21 @@ export function checkPasswordConfirmation(confirmPassword: string): ValidatorFn 
         return confirmValue === value? null : { mismatch: true };
     }
 }
+export function checkSpecialCharacteres(): ValidatorFn {
+    return (control:AbstractControl) : ValidationErrors | null => {
+
+        if (!control || !control.parent) {
+            return null;
+        }
+        const value = control.value;
+        const nameRegexp: RegExp = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        if (control.value && nameRegexp.test(value)) {
+            return { invalidName: true };
+        }
+        return null;
+
+    }
+}
 
 @Component({
     templateUrl: './signup.component.html',
@@ -58,10 +73,6 @@ export class SinupComponent {
 
     signupFormGroup: FormGroup;
     signupFormGroup2: FormGroup;
-
-
-
-    
 
     get email() {
         return this.signupFormGroup.controls['email'];
