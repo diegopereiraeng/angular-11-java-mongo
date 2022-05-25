@@ -64,7 +64,7 @@
                         </div>
                     </div>
             </div>
-            <div class="col-md-3" *ngIf="isPromoEnabled('PROMO_TWO') && promotionCreation() ">
+            <div class="col-md-3" *ngIf="promotionCreation() ">
                 <div class="card">
                     <div class="image-container">
                         <div class="first">
@@ -73,17 +73,17 @@
                             <span class="wishlist"><i class="fa fa-heart-o"></i></span>
                             </div>
                         </div>
-                        <img src="{{ promotion_one.href }}" class="img-fluid rounded thumbnail-image">
+                        <img src="{{ promotion_two.href }}" class="img-fluid rounded thumbnail-image">
                     </div>
                     <div class="product-detail-container p-2">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="dress-name">{{ promotion_one.title }}</h5>
+                                <h5 class="dress-name">{{ promotion_two.title }}</h5>
                                 
                             </div>
                             <div class="d-flex justify-content-between align-items-center pt-1">
                                 
                                 <div class="d-flex content-text">
-                                    {{ promotion_one.desc }}
+                                    {{ promotion_two.desc }}
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center pt-1 harness">
@@ -91,7 +91,7 @@
                                     <i class="fa fa-star-o rating-star"></i>
                                     <span class="rating-number">4.8</span>
                                 </div>
-                                <span class="buy"> {{ (promotion_one.type === 'active') ? 'Ver promoción' : 'Expirada' }}</span>
+                                <span class="buy"> {{ (promotion_two.type === 'active') ? 'Ver promoción' : 'Expirada' }}</span>
                             </div>
                     </div>
                 </div>

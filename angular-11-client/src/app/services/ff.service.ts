@@ -113,7 +113,7 @@ export class FFService {
     }
 
     this.cfClient.on(Event.READY, flags => {
-
+      console.log(JSON.stringify(flags))
       for (const [key, value] of Object.entries(flags)) {
         //console.log("Diego READY");
         console.log(key);

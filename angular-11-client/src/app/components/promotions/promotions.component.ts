@@ -24,7 +24,7 @@ export class PromotionsComponent {
     //images = [700, 800, 807].map((n) => `https://picsum.photos/id/${n}/900/500`);
     images: string[] = [];
 
-    promotion_one: Promotion = {"href":"https://loyaltyhubsin.santander.com.mx/media/images/show-image.jpg?idItem=3921&sizeImage=M&typeItem=promotion", "title": "Hot Sale - Liverpool", "desc": "EXPIRADA","type":"expired"} as Promotion
+    promotion_two: Promotion = {"href":"https://loyaltyhubsin.santander.com.mx/media/images/show-image.jpg?idItem=3921&sizeImage=M&typeItem=promotion", "title": "Hot Sale - Liverpool", "desc": "EXPIRADA","type":"expired"} as Promotion
 
 
     constructor(private app: AppService, private http: HttpClient, private ff: FFService,config: NgbCarouselConfig) {
@@ -38,6 +38,7 @@ export class PromotionsComponent {
         ff.SetFlags('PromotionFour',"https://i.ibb.co/WPJhVVd/banner4.png");
 
         ff.SetFlags('PROMO_ONE',true);
+        
 
         this.images.push(this.getStringFlagValue('PromotionOne'));
         this.images.push(this.getStringFlagValue('PromotionTwo'));
@@ -65,8 +66,8 @@ export class PromotionsComponent {
     }
 
     isPromoEnabled(promo:string){
-        console.log("promo enabled "+ this.ff.GetFlags(promo))
-        return Boolean(this.ff.GetFlags(promo));
+        //console.log("promo enabled "+ this.ff.GetFlags(promo))
+        return this.ff.GetFlags(promo);
     }
 
     getStringFlagValue(flag:string){
@@ -79,18 +80,18 @@ export class PromotionsComponent {
         //console.log("Diego")
         //console.log(JSON.stringify(promotion))
         if(typeof(promotion.href) !== "undefined"){
-            this.promotion_one.href = promotion.href
+            this.promotion_two.href = promotion.href
         }
         if(typeof(promotion.title) !== "undefined"){
-            this.promotion_one.title = promotion.title
+            this.promotion_two.title = promotion.title
         }
         if(typeof(promotion.desc) !== "undefined"){
-            this.promotion_one.desc = promotion.desc
+            this.promotion_two.desc = promotion.desc
         }
         //console.log("Diego 2")
-        //console.log(JSON.stringify(this.promotion_one))
+        //console.log(JSON.stringify(this.promotion_two))
         if(typeof(promotion.type) !== "undefined"){
-            this.promotion_one.type = promotion.type
+            this.promotion_two.type = promotion.type
             if (promotion.type === 'active' || promotion.type === 'expired') {
                 
                 return true
