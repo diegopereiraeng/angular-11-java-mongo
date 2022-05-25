@@ -13,6 +13,8 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { AppService } from './app.service';
 import { SinupComponent } from './components/signup/signup.component';
+import { PromotionsComponent } from './components/promotions/promotions.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -26,14 +28,16 @@ import { SinupComponent } from './components/signup/signup.component';
     RepositoriesListComponent,
     HomeComponent,
     LoginComponent,
-    SinupComponent
+    SinupComponent,
+    PromotionsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [AppService],
   bootstrap: [AppComponent]

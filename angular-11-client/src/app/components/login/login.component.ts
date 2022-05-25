@@ -24,8 +24,15 @@ export class LoginComponent {
 
 
   constructor(private app: AppService, private http: HttpClient, private router: Router,private loginService: LoginService, private ff: FFService) {
-    ff.SetFlags('Login_Version',"v1");
-    ff.SetFlags('Social_Login',"off");
+    
+    if (!this.ff.flagExists('Login_Version')) {
+      ff.SetFlags('Login_Version',"v1");
+    }
+    if (!this.ff.flagExists('Social_Login')) {
+      ff.SetFlags('Social_Login',"off");
+    }
+    
+    
   }
 
   loginEnabled(){

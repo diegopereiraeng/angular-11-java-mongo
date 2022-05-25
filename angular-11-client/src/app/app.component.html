@@ -3,6 +3,9 @@
     <a href="#" class="navbar-brand" style="margin:20px;padding:0px">{{getTitle()}}</a>
     <div class="navbar-nav mr-auto scroll">
       <li class="nav-item"><a routerLink="/home" class="nav-link">Home</a></li>
+      <li class="nav-item" *ngIf="allowPromotions()">
+        <a routerLink="promotions" class="nav-link" *ngIf="authenticated()">Promotions</a>
+      </li>
       <li class="nav-item" *ngIf="authenticated()">
         <a routerLink="tutorials" class="nav-link">Tutorials</a>
       </li>

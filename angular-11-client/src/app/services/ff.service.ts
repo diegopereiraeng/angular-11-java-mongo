@@ -113,6 +113,13 @@ export class FFService {
     }
 
     this.cfClient.on(Event.READY, flags => {
+
+      for (const [key, value] of Object.entries(flags)) {
+        console.log("Diego READY");
+        console.log(key);
+        console.log(value);
+        this.SetFlags(key,value);
+      }
       /* console.log(JSON.stringify(flags, null, 2))
       console.log(flags["Repositories"]); */
       this.SetFlags("repositoryEnabled",Boolean(flags["Repositories"]));
@@ -130,13 +137,35 @@ export class FFService {
         this.SetFlags("Repository_Filter",Boolean(flagInfo.value));
       }
       else{
+
+        
         /* console.log("Flag:"+flagInfo.flag+" changed to "+Boolean(flagInfo.value)) */
-        this.SetFlags(flagInfo.flag,Boolean(flagInfo.value));
+        if (typeof flagInfo.value == "boolean") {
+          this.SetFlags(flagInfo.flag,Boolean(flagInfo.value));
+        }
+        else{
+          this.SetFlags(flagInfo.flag,String(flagInfo.value));
+        }
       }
+        
       
     })
   }
 
+  flagExists(flag:string):boolean {
+    this.flags.filter(flagObj => flagObj.flag == flag)
+    let ffToUpdate = new FF(flag,"false");
+    let updateItem = this.flags.find(this.findIndexToUpdate, ffToUpdate.flag);
+
+    let index = this.flags.indexOf(updateItem!);
+
+    if (this.flags[index] !== undefined) {
+      return true ;
+    }
+    else {
+      return false
+    }
+  }
 
   SetFlags(flag: string, value: any ): void {
     
@@ -165,7 +194,7 @@ export class FFService {
     let ffToUpdate = new FF(flag,false);
     let updateItem = this.flags.find(this.findIndexToUpdate, ffToUpdate.flag);
     let index = this.flags.indexOf(updateItem!);
-    this.flags[index].value = this.cfClient.variation(flag,this.flags[index].value);
+    //this.flags[index].value = this.cfClient.variation(flag,this.flags[index].value);
     /* console.log("Get flags "+flag+": " + this.flags[index].value) */
     
     return this.flags[index].value

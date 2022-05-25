@@ -3,8 +3,9 @@ import { Component, SimpleChanges, OnInit } from '@angular/core';
 import { AppService } from './app.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-
 import { finalize } from "rxjs/operators";
+
+
 
 // Feature Flags
 import {  Event  } from '@harnessio/ff-javascript-client-sdk'
@@ -36,12 +37,20 @@ export class AppComponent implements OnInit{
   constructor(private app: AppService, private http: HttpClient, private router: Router, private ff: FFService) {
     //this.app.authenticate(undefined, undefined);
 
+
     this.registerFlag = this.registerFlag.bind(this);
 
 
     // New implementation ff -> lot better than
     ff.SetFlags('App_Title',"Harness");
     ff.SetFlags('Repositories',false);
+    if (!this.ff.flagExists('Promotions')) {
+      ff.SetFlags('Promotions',false);
+  }
+  }
+
+  allowPromotions(): boolean {
+    return Boolean(this.ff.GetFlags('Promotions'));
   }
 
   getTitle(): string {
