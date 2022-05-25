@@ -115,7 +115,7 @@ export class FFService {
     this.cfClient.on(Event.READY, flags => {
 
       for (const [key, value] of Object.entries(flags)) {
-        console.log("Diego READY");
+        //console.log("Diego READY");
         console.log(key);
         console.log(value);
         this.SetFlags(key,value);
@@ -140,7 +140,7 @@ export class FFService {
 
         
         /* console.log("Flag:"+flagInfo.flag+" changed to "+Boolean(flagInfo.value)) */
-        if (typeof flagInfo.value == "boolean") {
+        if (typeof flagInfo.value === "boolean") {
           this.SetFlags(flagInfo.flag,Boolean(flagInfo.value));
         }
         else{
