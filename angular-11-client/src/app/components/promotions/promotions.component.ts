@@ -38,7 +38,6 @@ export class PromotionsComponent {
         ff.SetFlags('PromotionFour',"https://i.ibb.co/WPJhVVd/banner4.png");
 
         ff.SetFlags('PROMO_ONE',true);
-        ff.SetFlags('PROMO_TWO',true);
 
         this.images.push(this.getStringFlagValue('PromotionOne'));
         this.images.push(this.getStringFlagValue('PromotionTwo'));
@@ -50,8 +49,13 @@ export class PromotionsComponent {
             ff.SetFlags('Promotions',false);
         } 
         
-        ff.SetFlags('Promotions_Banner',false);
-        ff.SetFlags('test_json_123','{"href":"https://loyaltyhubsin.santander.com.mx/media/images/show-image.jpg?idItem=3921&sizeImage=M&typeItem=promotion", "title": "Hot Sale - Liverpool", "desc": "EXPIRADA","type":"expired"}');
+        if (!this.ff.flagExists('Promotions_Banner')) {
+            ff.SetFlags('Promotions_Banner',false);
+        } 
+        if (!this.ff.flagExists('test_json_123')) {
+            ff.SetFlags('test_json_123','{"href":"https://loyaltyhubsin.santander.com.mx/media/images/show-image.jpg?idItem=3921&sizeImage=M&typeItem=promotion", "title": "Hot Sale - Liverpool", "desc": "EXPIRADA","type":"expired"}');
+        } 
+
     }
 
     

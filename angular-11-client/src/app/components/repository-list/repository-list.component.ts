@@ -27,8 +27,13 @@ export class RepositoriesListComponent implements OnInit {
 
   constructor(private app: AppService,private repositoryService: RepositoryService, private ff: FFService, private router: Router) { 
     console.log("App Starting")
-    ff.SetFlags('Harness_Onboarding',false);
-    ff.SetFlags('Repository_Filter',false);
+
+    if (!this.ff.flagExists('Harness_Onboarding')) {
+      ff.SetFlags('Harness_Onboarding',false);
+    } 
+    if (!this.ff.flagExists('Repository_Filter')) {
+      ff.SetFlags('Repository_Filter',false);
+    } 
     /* ff.flags.push(new FF('Harness_Onboarding',false));
     ff.flags.push(new FF('Repository_Filter',false)); */
   }

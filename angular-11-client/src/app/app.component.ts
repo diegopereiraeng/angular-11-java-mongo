@@ -42,11 +42,16 @@ export class AppComponent implements OnInit{
 
 
     // New implementation ff -> lot better than
-    ff.SetFlags('App_Title',"Harness");
-    ff.SetFlags('Repositories',false);
+    
+    if (!this.ff.flagExists('App_Title')) {
+      ff.SetFlags('App_Title',"Harness");
+    }
+    if (!this.ff.flagExists('Repositories')) {
+      ff.SetFlags('Repositories',false);
+    }
     if (!this.ff.flagExists('Promotions')) {
       ff.SetFlags('Promotions',false);
-  }
+    }
   }
 
   allowPromotions(): boolean {

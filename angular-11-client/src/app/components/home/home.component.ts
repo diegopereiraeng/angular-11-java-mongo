@@ -18,8 +18,9 @@ export class HomeComponent {
         //http.get('http://localhost:8080/api/').subscribe(data => this.greeting = data);
         http.get('http://harness-demo.site/spring-boot-server/api/',{headers: new HttpHeaders({ authorization : `${this.app.getToken()}` || '' })}).subscribe(data => this.greeting = data);
         
-        ff.SetFlags('Home_Version',"v2");
-
+        if (!this.ff.flagExists('Home_Version')) {
+            ff.SetFlags('Home_Version',"v2");
+        }
     }
 
     homeEnabled() {
